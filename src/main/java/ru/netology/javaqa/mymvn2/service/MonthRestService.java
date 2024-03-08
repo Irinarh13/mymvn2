@@ -4,15 +4,18 @@ public class MonthRestService {
 
     public int calculate(int income, int expenses, int threshold) {
         int count = 0; // счётчик месяцев отдыха
-
-        for (int month = 0; month < 12; month++) {
-            if (threshold >= expenses) { // можем ли отдыхать?
-                count++; // увеличиваем счётчик месяцев отдыха
-                threshold = (threshold - expenses) / 3;
+        int money = 0; // количество денег на счету
+        for (int month = 1; month < 12; month++) {
+            if (money < threshold) { // можем ли отдыхать?
+                money = money + income - expenses;
             } else {
-                threshold = threshold + income - expenses;
+                int moneyBalance = money - expenses;
+                int restMoney = moneyBalance - (money - expenses) / 3;
+                money = (money - expenses) / 3;
+                count++;
             }
         }
         return count;
     }
 }
+
